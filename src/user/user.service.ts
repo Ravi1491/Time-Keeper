@@ -10,7 +10,6 @@ import { UserRepository } from './repo/user.repository';
 @Injectable()
 export class UserService {
   constructor(@InjectRepository(User) private readonly userRepository : UserRepository){}
-  // constructor(private userRepository: UserRepository) {}
 
   create(createUserDto: CreateUserDto) : Promise<User> {
     let user: User = new User();
@@ -27,7 +26,7 @@ export class UserService {
   }
 
   findOne(id: number) {
-    return this.userRepository.findOne(id);
+    return this.userRepository.findOneOrFail({where: { id: id }});
   }
 
   findUserById(id: number) {

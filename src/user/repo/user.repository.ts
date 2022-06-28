@@ -6,18 +6,12 @@ import { User } from '../entities/user.entity';
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
 
-  getuserByName(firstName: string){
+  getuserById(id: number): Promise<User>{
     return this.findOne({
       where: {  
-        firstName: firstName
+        id: id
       }
     })
   }
 
 }
-
-export const UserRepositoryProvider = {
-  provide: 'UserRepository',
-  useFactory: (connection: Connection) => connection.getCustomRepository(UserRepository),
-  inject: [Connection],
-};
