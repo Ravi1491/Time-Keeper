@@ -33,6 +33,10 @@ export class UserService {
     return this.userRepository.findOneOrFail({where: { id: id }});
   }
 
+  findUserByEmail(email:string){
+    return this.userRepository.findOne({where: { email: email}})
+  }
+
   update(id: number, updateUserDto: UpdateUserDto) {
     let user: User = new User();
     user.email = updateUserDto.email;
