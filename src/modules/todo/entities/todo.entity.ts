@@ -11,10 +11,13 @@ export class Todo{
   title: string;
 
   @Column()
-  date: string;
+  creation_date: string;
 
   @Column()
-  completed: boolean;
+  status: string;
+
+  @Column({nullable: true})
+  due_date: string;
 
   // many todos belong to one user
   @ManyToOne(()=>User, (user) => user.todos)

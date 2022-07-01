@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { RemainderModule } from './modules/reminder/reminder.module';
 import { TodoModule } from './modules/todo/todo.module';
 import { UserModule } from './modules/user/user.module';
 
@@ -11,7 +12,8 @@ import { UserModule } from './modules/user/user.module';
     DatabaseModule,
     UserModule,
     TodoModule,
-    AuthModule
+    AuthModule,
+    RemainderModule
   ],
   controllers: [],
   providers: [],

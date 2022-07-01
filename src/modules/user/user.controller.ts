@@ -26,6 +26,7 @@ export class UserController {
   
   @Get(':id')
   @ApiSecurity('JWT-auth')
+  @UseGuards(new RoleGuard(Constants.ROLES.ADMIN_ROLE ))
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findOne(id);
   }

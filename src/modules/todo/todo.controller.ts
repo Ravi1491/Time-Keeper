@@ -33,4 +33,10 @@ export class TodoController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.todoService.remove(id);
   }
+
+  // to check efficiency of a user
+  @Get('/performance/:userId')
+  performance(@Param('userId', ParseIntPipe) userId: number){
+    return this.todoService.performance(userId);
+  }
 }

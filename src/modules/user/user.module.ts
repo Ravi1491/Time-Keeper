@@ -3,9 +3,30 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ScheduleModule } from '@nestjs/schedule';
+import { ConfigService } from '@nestjs/config';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    EventEmitterModule.forRoot(),
+    ScheduleModule.forRoot(),
+    MailerModule.forRootAsync({
+      useFactory: async (config: ConfigService) => ({
+        transport: {
+          host: 'smtp.mailtrap.io',
+          secure: false,
+          auth: {
+            user: config.get('SENDER_EMAIL'),
+            pass: config.get('SENDER_PASSWORD'),
+          },
+        },
+      }),
+      inject: [ConfigService],
+    }),
+  ],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService]
