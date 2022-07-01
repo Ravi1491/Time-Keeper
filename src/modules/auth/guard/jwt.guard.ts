@@ -5,6 +5,7 @@ import { Constants } from "src/utils/constants";
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
+
   canActivate(context: ExecutionContext){
     const ctx = context.switchToHttp();
     const request = ctx.getRequest<Request>();
@@ -15,4 +16,5 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
     return super.canActivate(context);
   }
+  
 }

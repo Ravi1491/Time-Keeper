@@ -1,16 +1,19 @@
-import { Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiTags } from '@nestjs/swagger';
 import { User } from '../user/entities/user.entity';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
+@ApiTags('Login')
 export class AuthController {
 
   constructor(private JwtService : JwtService){}
 
   @Post('/login')
   @UseGuards(AuthGuard('local'))
-  login(@Request() req): any {
+  login(@Request() req, @Body() loginDto: LoginDto): any {
     const user : User = req.user;
 
     const payload = {
