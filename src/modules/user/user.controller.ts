@@ -12,11 +12,13 @@ import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  // Create User
   @Post('/signUp')
   create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
-
+  
+  // Find All Users
   @Get()
   @ApiSecurity('JWT-auth')
   @UseGuards(new RoleGuard(Constants.ROLES.ADMIN_ROLE ))
@@ -24,6 +26,7 @@ export class UserController {
     return this.userService.findAll();
   }
   
+  // Find One User
   @Get(':id')
   @ApiSecurity('JWT-auth')
   @UseGuards(new RoleGuard(Constants.ROLES.ADMIN_ROLE ))
@@ -31,12 +34,14 @@ export class UserController {
     return this.userService.findOne(id);
   }
   
+  // Update User
   @Patch(':id')
   @ApiSecurity('JWT-auth')
   update(@Param('id', ParseIntPipe) id: number, @Body(ValidationPipe) updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
 
+  // Delete User
   @Delete(':id')
   @ApiSecurity('JWT-auth')
   @UseGuards(new RoleGuard(Constants.ROLES.ADMIN_ROLE))

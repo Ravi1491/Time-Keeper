@@ -9,7 +9,8 @@ export class RoleGuard implements CanActivate{
   constructor(role : string){
     this.role = role;
   }
-
+  
+  // to check roles of every user 
   canActivate(context: ExecutionContext): boolean {
     const ctx = context.switchToHttp();    
     const request : any = ctx.getRequest<Request>();

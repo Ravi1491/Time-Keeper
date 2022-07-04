@@ -9,26 +9,31 @@ import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
+  // Create Todos
   @Post(':userId')
   create(@Body(ValidationPipe) createTodoDto: CreateTodoDto, @Param('userId') userId : number) {
     return this.todoService.create(createTodoDto, userId);
   }
 
+  // Find Not Completeed Todos by User
   @Get('/findAllNotCompleted/:userId')
   findAllTodosByUserIdNotCompleted(@Param('userId', ParseIntPipe) userId : number) {
     return this.todoService.findAllTodosByUserNotCompleted(userId);
   }
 
+  // Find Completeed Todos by User
   @Get('/findAllCompleted/:userId')
   findAllTodosByUserIdCompleted(@Param('userId', ParseIntPipe) userId : number) {
     return this.todoService.findAllTodosByUserCompleted(userId);
   }
 
+  // Update todos to done 
   @Patch(':id')
   update(@Param('id', ParseIntPipe) id: number) {
     return this.todoService.update(id);
   }
 
+  // Delete Todos
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.todoService.remove(id);

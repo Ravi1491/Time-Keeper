@@ -7,9 +7,11 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ConfigService } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { DocumentModule } from '../search/documents/document.module';
 
 @Module({
   imports: [
+    DocumentModule,
     TypeOrmModule.forFeature([User]),
     EventEmitterModule.forRoot(),
     ScheduleModule.forRoot(),

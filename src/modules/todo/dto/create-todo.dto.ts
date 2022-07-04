@@ -10,6 +10,6 @@ export class CreateTodoDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  due_date : string;
+  dueDate : string;
 
 }

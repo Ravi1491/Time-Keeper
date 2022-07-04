@@ -17,7 +17,7 @@ export class Todo{
   status: string;
 
   @Column({nullable: true})
-  due_date: string;
+  dueDate: string;
 
   // many todos belong to one user
   @ManyToOne(()=>User, (user) => user.todos)

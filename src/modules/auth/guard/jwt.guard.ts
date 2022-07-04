@@ -6,6 +6,7 @@ import { Constants } from "src/utils/constants";
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
 
+  // JWT token apply on all routes except some routes
   canActivate(context: ExecutionContext){
     const ctx = context.switchToHttp();
     const request = ctx.getRequest<Request>();

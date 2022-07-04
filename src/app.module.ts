@@ -5,6 +5,9 @@ import { AuthModule } from './modules/auth/auth.module';
 import { RemainderModule } from './modules/reminder/reminder.module';
 import { TodoModule } from './modules/todo/todo.module';
 import { UserModule } from './modules/user/user.module';
+import { SearchModule } from './modules/search/search.module';
+import { DocumentModule } from './modules/search/documents/document.module';
+import { IndexModule } from './modules/search/indexes/index.module';
 
 @Module({
   imports: [
@@ -13,7 +16,10 @@ import { UserModule } from './modules/user/user.module';
     UserModule,
     TodoModule,
     AuthModule,
-    RemainderModule
+    RemainderModule,
+    SearchModule,
+    IndexModule,
+    DocumentModule,
   ],
   controllers: [],
   providers: [],

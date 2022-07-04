@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserService } from 'src/modules/user/user.service';
+import { DocumentService } from '../search/documents/document.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { Todo } from './entities/todo.entity';
 import { TodoRepository } from './repo/todo.repository';
@@ -11,24 +12,42 @@ export class TodoService {
   constructor(
     @InjectRepository(Todo) private readonly todoRepository: TodoRepository,
     private userService: UserService,
+    private documentService: DocumentService
   ) {}
 
-  // Add Todos
+  // Create Todos
   async create(createTodoDto: CreateTodoDto, userId: number) {
     let todo: Todo = new Todo();
     todo.title = createTodoDto.title;
     todo.creation_date = new Date().toLocaleString();
-
-    if(todo.due_date){
-      todo.due_date = createTodoDto.due_date.toLocaleString();
+    todo.dueDate = createTodoDto.dueDate;
+  
+    if(todo.dueDate){
+      todo.dueDate = todo.dueDate.toLocaleString();
     }else{
-      todo.due_date = null;
+      todo.dueDate = null;
     }
     
     todo.status = 'pending';
     todo.user = await this.userService.findUserById(userId);
 
-    return this.todoRepository.save(todo);
+    await this.todoRepository.save(todo);
+    await this.saveTodoDocument(todo.title, todo.user.id);
+
+    return "Todo Successfully Added"
+  }
+
+  // save data in the userList Index for Meiliesearch
+  async saveTodoDocument(name: string , userId: number){
+    const todo = await this.todoRepository.findOne({
+      relations: ['user'],
+      where: {
+        user: { id: userId },
+        title: name,
+      },
+    });
+    const { id, title, creation_date , status, dueDate, user } = todo
+    this.documentService.addTodoDocument('TodoList', {id, title, creation_date , status, dueDate, user })
   }
 
   // For Reminder Service find all Not completed todos 
@@ -52,7 +71,17 @@ export class TodoService {
     });
   }
 
-    // find completed todos of user
+  // Find All Todos
+  findAllTodos(userId: number) {
+    return this.todoRepository.find({
+      relations: ['user'],
+      where: {
+        user: { id: userId }
+      },
+    });
+  }
+
+  // find completed todos of user
   findAllTodosByUserCompleted(userId: number) {
     return this.todoRepository.find({
       relations: ['user'],
@@ -90,7 +119,7 @@ export class TodoService {
     }
   }
 
-    // update todos to done
+  // update todos to done
   update(todoId: number) {
     return this.todoRepository.update(todoId, {status : 'done'});
   }
@@ -100,7 +129,7 @@ export class TodoService {
     return this.todoRepository.update(todoId, {status : 'overDue'});
   }
 
-  //  deleter todos
+  //  delete todos
   remove(todoId: number) {
     return this.todoRepository.delete(todoId);
   }
