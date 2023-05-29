@@ -46,6 +46,7 @@ export class UserController {
   @ApiSecurity('JWT-auth')
   @UseGuards(new RoleGuard(Constants.ROLES.ADMIN_ROLE))
   remove(@Param('id', ParseIntPipe) id: number) {
+    console.log('kdewbew')
     return this.userService.remove(id);
   }
 }
