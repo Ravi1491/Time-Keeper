@@ -18,6 +18,7 @@ export class TodoController {
   // Find Not Completeed Todos by User
   @Get('/findAllNotCompleted/:userId')
   findAllTodosByUserIdNotCompleted(@Param('userId', ParseIntPipe) userId : number) {
+    console.log('123 ----- ', process.env.SENDER_EMAIL)
     return this.todoService.findAllTodosByUserNotCompleted(userId);
   }
 

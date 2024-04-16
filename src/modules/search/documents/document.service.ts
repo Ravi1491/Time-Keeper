@@ -38,7 +38,11 @@ export class DocumentService {
   
   public async addTodoDocument(index_uid: string, todoDocumentDto: TodoDocumentDto){
     const index = this.getIndex(index_uid);
-    return await index.addDocuments([todoDocumentDto]);  
+    const docu = await index.getDocuments();
+    console.log("DOCUMENT------", docu);
+    const news = await index.addDocuments([todoDocumentDto]);  
+    console.log(news)
+    return docu;
   }
 
   public async updateTodoDocument(index_uid: string, todoDocumentDto: TodoDocumentDto){

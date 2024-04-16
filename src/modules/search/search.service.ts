@@ -17,8 +17,12 @@ export class SearchService {
 
   public async getsearch(index_uid: string, search_query: any){
     const index = this.getIndex(index_uid);
-    return index.search(search_query, {
+    const searchData = await index.search(search_query, {
       attributesToHighlight: ['name']
     });
+
+    console.log("searchData ", searchData);
+
+    return searchData;
   }
 }

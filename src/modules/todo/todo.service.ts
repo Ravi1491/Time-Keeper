@@ -46,6 +46,7 @@ export class TodoService {
         title: name,
       },
     });
+    console.log("INSEIDE TODO")
     const { id, title, creation_date , status, dueDate, user } = todo
     this.documentService.addTodoDocument('TodoList', {id, title, creation_date , status, dueDate, user })
   }

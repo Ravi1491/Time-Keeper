@@ -11,7 +11,7 @@ import { IndexModule } from './modules/search/indexes/index.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: ['.local.env'] }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: ['.env'] }),
     DatabaseModule,
     UserModule,
     TodoModule,
