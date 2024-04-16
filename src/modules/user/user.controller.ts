@@ -1,4 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, ParseIntPipe, Req, UseGuards, SetMetadata } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ValidationPipe,
+  ParseIntPipe,
+  Req,
+  UseGuards,
+  SetMetadata,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -8,7 +21,6 @@ import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
 @ApiTags('User')
-
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -17,27 +29,30 @@ export class UserController {
   create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
-  
+
   // Find All Users
   @Get()
   @ApiSecurity('JWT-auth')
-  @UseGuards(new RoleGuard(Constants.ROLES.ADMIN_ROLE ))
+  @UseGuards(new RoleGuard(Constants.ROLES.ADMIN_ROLE))
   findAll() {
     return this.userService.findAll();
   }
-  
+
   // Find One User
   @Get(':id')
   @ApiSecurity('JWT-auth')
-  @UseGuards(new RoleGuard(Constants.ROLES.ADMIN_ROLE ))
+  @UseGuards(new RoleGuard(Constants.ROLES.ADMIN_ROLE))
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findOne(id);
   }
-  
+
   // Update User
   @Patch(':id')
   @ApiSecurity('JWT-auth')
-  update(@Param('id', ParseIntPipe) id: number, @Body(ValidationPipe) updateUserDto: UpdateUserDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body(ValidationPipe) updateUserDto: UpdateUserDto,
+  ) {
     return this.userService.update(id, updateUserDto);
   }
 
@@ -46,7 +61,12 @@ export class UserController {
   @ApiSecurity('JWT-auth')
   @UseGuards(new RoleGuard(Constants.ROLES.ADMIN_ROLE))
   remove(@Param('id', ParseIntPipe) id: number) {
-    console.log('kdewbew')
+    console.log('kdewbew');
     return this.userService.remove(id);
+  }
+
+  @Get('/health')
+  health() {
+    return 'User Service is up and running';
   }
 }
